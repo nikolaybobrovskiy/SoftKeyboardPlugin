@@ -1,13 +1,18 @@
-package com.cordova.plugin.softkeyboard;
-
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.content.Context;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
 
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.PluginResult;
+import android.os.SystemClock;
+import android.view.View;
+
+import android.util.Log;
+import java.lang.String;
 
 public class SoftKeyboard extends CordovaPlugin {
 
@@ -29,6 +34,14 @@ public class SoftKeyboard extends CordovaPlugin {
     public boolean isKeyBoardShowing() {
     	int heightDiff = webView.getRootView().getHeight() - webView.getHeight();
     	return (100 < heightDiff); // if more than 100 pixels, its probably a keyboard...
+    }
+
+    public int getWebViewWidth() {
+        return webView.getWidth();
+    }
+
+    public int getWebViewHeight() {
+        return webView.getHeight();
     }
 
     public boolean sendTap(final int posx, final int posy, final CallbackContext callbackContext) {
@@ -57,6 +70,14 @@ public class SoftKeyboard extends CordovaPlugin {
         else if (action.equals("hide")) {
             this.hideKeyBoard();
             callbackContext.success();
+            return true;
+        }
+        else if (action.equals("getWebViewWidth")) {
+            callbackContext.success(getWebViewWidth());
+            return true;
+        }
+        else if (action.equals("getWebViewHeight")) {
+            callbackContext.success(getWebViewHeight());
             return true;
         }
         else if (action.equals("isShowing")) {
