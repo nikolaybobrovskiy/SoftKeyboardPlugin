@@ -1,29 +1,68 @@
-(function( cordova ) {
+(function(cordova) {
 
 	function SoftKeyboard() {}
 
 	SoftKeyboard.prototype.show = function(win, fail) {
 		return cordova.exec(
-				function (args) { if(win !== undefined) { win(args); } },
-				function (args) { if(fail !== undefined) { fail(args); } },
-				"SoftKeyboard", "show", []);
+			function(args) {
+				if (win !== undefined) {
+					win(args);
+				}
+			},
+			function(args) {
+				if (fail !== undefined) {
+					fail(args);
+				}
+			},
+			"SoftKeyboard", "show", []);
 	};
 
 	SoftKeyboard.prototype.hide = function(win, fail) {
 		return cordova.exec(
-				function (args) { if(win !== undefined) { win(args); } },
-				function (args) { if(fail !== undefined) { fail(args); } },
-				"SoftKeyboard", "hide", []);
+			function(args) {
+				if (win !== undefined) {
+					win(args);
+				}
+			},
+			function(args) {
+				if (fail !== undefined) {
+					fail(args);
+				}
+			},
+			"SoftKeyboard", "hide", []);
 	};
 
 	SoftKeyboard.prototype.isShowing = function(win, fail) {
 		return cordova.exec(
-				function (args) { if(win !== undefined) { win(args); } },
-				function (args) { if(fail !== undefined) { fail(args); } },
-				"SoftKeyboard", "isShowing", []);
+			function(args) {
+				if (win !== undefined) {
+					win(args);
+				}
+			},
+			function(args) {
+				if (fail !== undefined) {
+					fail(args);
+				}
+			},
+			"SoftKeyboard", "isShowing", []);
 	};
 
-	if(!window.plugins) {
+	SoftKeyboard.prototype.sendTap = function(posx, posy, win, fail) {
+		return cordova.exec(
+			function(args) {
+				if (win) {
+					win(args);
+				}
+			},
+			function(args) {
+				if (fail) {
+					fail(args);
+				}
+			},
+			"SoftKeyboard", "sendTap", [posx, posy]);
+	};
+	
+	if (!window.plugins) {
 		window.plugins = {};
 	}
 
@@ -34,4 +73,4 @@
 	var softKeyboard = new SoftKeyboard();
 	module.exports = softKeyboard;
 
-})( window.cordova );
+})(window.cordova);

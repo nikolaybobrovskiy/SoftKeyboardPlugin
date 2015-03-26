@@ -31,6 +31,22 @@ public class SoftKeyboard extends CordovaPlugin {
     	return (100 < heightDiff); // if more than 100 pixels, its probably a keyboard...
     }
 
+    public boolean sendTap(final int posx, final int posy, final CallbackContext callbackContext) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                boolean up, down;
+                up = webView.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, posx, posy, 0));
+                down = webView.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, posx, posy, 0));
+                if (!down || !up) {
+                    callbackContext.error("Failed sending key up+down event for coords " + posx + ", " + posy);
+                } else {
+                    callbackContext.success("Succesfully sent key up+down event for coords " + posx + ", " + posy);
+                }
+            }
+        });
+        return true;
+    }
+
     @Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
 		if (action.equals("show")) {
@@ -47,7 +63,17 @@ public class SoftKeyboard extends CordovaPlugin {
             callbackContext.success(Boolean.toString(this.isKeyBoardShowing()));
             return true;
         }
-		else {
+		else if (action.equals("sendTap")) {
+            try {
+                int posx = args.getInt(0);
+                int posy = args.getInt(1);
+                return this.sendTap(posx, posy, callbackContext);
+            } catch (JSONException jsonEx) {
+                callbackContext.error(jsonEx.getMessage());
+                return false;
+            }
+        }
+        else {
 			return false;
 		}
 	}

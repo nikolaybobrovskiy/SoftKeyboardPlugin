@@ -5,7 +5,8 @@ SoftKeyboard control plugin for Cordova / PhoneGap.
 
 Follows the [Cordova Plugin spec](https://github.com/apache/cordova-plugman/blob/master/plugin_spec.md), so that it works with [Plugman](https://github.com/apache/cordova-plugman).
 
-Taken from: https://github.com/phonegap/phonegap-plugins/tree/master/Android/SoftKeyboard
+Originally taken from: https://github.com/phonegap/phonegap-plugins/tree/master/Android/SoftKeyboard
+Now: https://github.com/nikolaybobrovskiy/SoftKeyboardPlugin
 
 Note: So far only supports Android.
 
