@@ -47,6 +47,51 @@
 			"SoftKeyboard", "isShowing", []);
 	};
 
+	SoftKeyboard.prototype.getWebViewHeight = function(win, fail) {
+		return cordova.exec(
+			function(height) {
+				if (win) {
+					win(height);
+				}
+			},
+			function(args) {
+				if (fail) {
+					fail(args);
+				}
+			},
+			"SoftKeyboard", "getWebViewHeight", []);
+	};
+
+	SoftKeyboard.prototype.getDisplayHeight = function(win, fail) {
+		return cordova.exec(
+			function(height) {
+				if (win) {
+					win(height);
+				}
+			},
+			function(args) {
+				if (fail) {
+					fail(args);
+				}
+			},
+			"SoftKeyboard", "getDisplayHeight", []);
+	};
+
+	SoftKeyboard.prototype.getWebViewWidth = function(win, fail) {
+		return cordova.exec(
+			function(width) {
+				if (win) {
+					win(width);
+				}
+			},
+			function(args) {
+				if (fail) {
+					fail(args);
+				}
+			},
+			"SoftKeyboard", "getWebViewWidth", []);
+	};
+	
 	SoftKeyboard.prototype.sendTap = function(posx, posy, win, fail) {
 		return cordova.exec(
 			function(args) {
@@ -61,7 +106,7 @@
 			},
 			"SoftKeyboard", "sendTap", [posx, posy]);
 	};
-	
+
 	if (!window.plugins) {
 		window.plugins = {};
 	}

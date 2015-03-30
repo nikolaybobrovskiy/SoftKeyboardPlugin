@@ -12,6 +12,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import android.os.SystemClock;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.Display;
+import android.graphics.Point;
 
 import android.util.Log;
 import java.lang.String;
@@ -44,6 +47,14 @@ public class SoftKeyboard extends CordovaPlugin {
 
     public int getWebViewHeight() {
         return webView.getHeight();
+    }
+
+    public int getDisplayHeight() {
+        WindowManager wm = (WindowManager) cordova.getActivity().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.y;
     }
 
     public boolean sendTap(final int posx, final int posy, final CallbackContext callbackContext) {
@@ -80,6 +91,10 @@ public class SoftKeyboard extends CordovaPlugin {
         }
         else if (action.equals("getWebViewHeight")) {
             callbackContext.success(getWebViewHeight());
+            return true;
+        }
+        else if (action.equals("getDisplayHeight")) {
+            callbackContext.success(getDisplayHeight());
             return true;
         }
         else if (action.equals("isShowing")) {
