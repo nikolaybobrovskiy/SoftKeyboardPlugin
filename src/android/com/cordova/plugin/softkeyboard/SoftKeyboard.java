@@ -14,6 +14,7 @@ import android.os.SystemClock;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.Display;
+import android.webkit.WebView;
 import android.graphics.Point;
 
 import android.util.Log;
@@ -26,27 +27,27 @@ public class SoftKeyboard extends CordovaPlugin {
 
     public void showKeyBoard() {
         InputMethodManager mgr = (InputMethodManager) cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        mgr.showSoftInput(webView, InputMethodManager.SHOW_IMPLICIT);
+        mgr.showSoftInput((WebView) webView, InputMethodManager.SHOW_IMPLICIT);
 
-        ((InputMethodManager) cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(webView, 0);
+        ((InputMethodManager) cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput((WebView) webView, 0);
     }
 
     public void hideKeyBoard() {
         InputMethodManager mgr = (InputMethodManager) cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        mgr.hideSoftInputFromWindow(webView.getWindowToken(), 0);
+        mgr.hideSoftInputFromWindow(((WebView) webView).getWindowToken(), 0);
     }
 
     public boolean isKeyBoardShowing() {
-    	int heightDiff = webView.getRootView().getHeight() - webView.getHeight();
-    	return (100 < heightDiff); // if more than 100 pixels, its probably a keyboard...
+        int heightDiff = ((WebView) webView).getRootView().getHeight() - ((WebView) webView).getHeight();
+        return (100 < heightDiff); // if more than 100 pixels, its probably a keyboard...
     }
 
     public int getWebViewWidth() {
-        return webView.getWidth();
+        return ((WebView) webView).getWidth();
     }
 
     public int getWebViewHeight() {
-        return webView.getHeight();
+        return ((WebView) webView).getHeight();
     }
 
     public int getDisplayHeight() {
@@ -61,8 +62,8 @@ public class SoftKeyboard extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 boolean up, down;
-                up = webView.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, posx, posy, 0));
-                down = webView.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, posx, posy, 0));
+                up = ((WebView) webView).dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, posx, posy, 0));
+                down = ((WebView) webView).dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, posx, posy, 0));
                 if (!down || !up) {
                     callbackContext.error("Failed sending key up+down event for coords " + posx + ", " + posy);
                 } else {
@@ -74,12 +75,12 @@ public class SoftKeyboard extends CordovaPlugin {
     }
 
     @Override
-	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
-		if (action.equals("show")) {
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+        if (action.equals("show")) {
             this.showKeyBoard();
             callbackContext.success("done");
             return true;
-		}
+        }
         else if (action.equals("hide")) {
             this.hideKeyBoard();
             callbackContext.success();
@@ -101,7 +102,7 @@ public class SoftKeyboard extends CordovaPlugin {
             callbackContext.success(Boolean.toString(this.isKeyBoardShowing()));
             return true;
         }
-		else if (action.equals("sendTap")) {
+        else if (action.equals("sendTap")) {
             try {
                 int posx = args.getInt(0);
                 int posy = args.getInt(1);
@@ -112,7 +113,7 @@ public class SoftKeyboard extends CordovaPlugin {
             }
         }
         else {
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 }
